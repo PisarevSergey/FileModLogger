@@ -97,6 +97,12 @@
       <WppEnabled>true</WppEnabled>
       <WppScanConfigurationData>tracing.h</WppScanConfigurationData>
     </ClCompile>
+    <MessageCompile>
+      <GenerateKernelModeLoggingMacros>true</GenerateKernelModeLoggingMacros>
+    </MessageCompile>
+    <MessageCompile>
+      <UseBaseNameOfInput>true</UseBaseNameOfInput>
+    </MessageCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Link>
@@ -106,6 +112,12 @@
       <WppEnabled>true</WppEnabled>
       <WppScanConfigurationData>tracing.h</WppScanConfigurationData>
     </ClCompile>
+    <MessageCompile>
+      <GenerateKernelModeLoggingMacros>true</GenerateKernelModeLoggingMacros>
+    </MessageCompile>
+    <MessageCompile>
+      <UseBaseNameOfInput>true</UseBaseNameOfInput>
+    </MessageCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Link>
@@ -115,6 +127,12 @@
       <WppEnabled>true</WppEnabled>
       <WppScanConfigurationData>tracing.h</WppScanConfigurationData>
     </ClCompile>
+    <MessageCompile>
+      <GenerateKernelModeLoggingMacros>true</GenerateKernelModeLoggingMacros>
+    </MessageCompile>
+    <MessageCompile>
+      <UseBaseNameOfInput>true</UseBaseNameOfInput>
+    </MessageCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Link>
@@ -124,6 +142,12 @@
       <WppEnabled>true</WppEnabled>
       <WppScanConfigurationData>tracing.h</WppScanConfigurationData>
     </ClCompile>
+    <MessageCompile>
+      <GenerateKernelModeLoggingMacros>true</GenerateKernelModeLoggingMacros>
+    </MessageCompile>
+    <MessageCompile>
+      <UseBaseNameOfInput>true</UseBaseNameOfInput>
+    </MessageCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
     <FilesToPackage Include="$(TargetPath)" />
@@ -138,6 +162,9 @@
     <ClCompile Include="driver.cpp" />
     <ClCompile Include="flt_registration.cpp" />
     <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <MessageCompile Include="iomon_etw.man" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

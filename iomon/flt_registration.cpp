@@ -7,6 +7,10 @@ namespace
   {
     delete get_driver();
 
+    EventWriteUnloadEvent(0);
+    im(FLT_REGISTRATION, "unloading");
+
+    EventUnregisterIomon();
     WPP_CLEANUP(0);
 
     return STATUS_SUCCESS;
