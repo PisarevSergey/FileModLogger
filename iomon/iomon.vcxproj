@@ -20,7 +20,6 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="iomon.rc" />
-    <ClCompile Include="iomon.c" />
     <Inf Include="iomon.inf" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -94,24 +93,51 @@
     <Link>
       <AdditionalDependencies>fltmgr.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <ClCompile>
+      <WppEnabled>true</WppEnabled>
+      <WppScanConfigurationData>tracing.h</WppScanConfigurationData>
+    </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Link>
       <AdditionalDependencies>fltmgr.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <ClCompile>
+      <WppEnabled>true</WppEnabled>
+      <WppScanConfigurationData>tracing.h</WppScanConfigurationData>
+    </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Link>
       <AdditionalDependencies>fltmgr.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <ClCompile>
+      <WppEnabled>true</WppEnabled>
+      <WppScanConfigurationData>tracing.h</WppScanConfigurationData>
+    </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Link>
       <AdditionalDependencies>fltmgr.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <ClCompile>
+      <WppEnabled>true</WppEnabled>
+      <WppScanConfigurationData>tracing.h</WppScanConfigurationData>
+    </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
     <FilesToPackage Include="$(TargetPath)" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="common.h" />
+    <ClInclude Include="driver.h" />
+    <ClInclude Include="flt_registration.h" />
+    <ClInclude Include="tracing.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="driver.cpp" />
+    <ClCompile Include="flt_registration.cpp" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

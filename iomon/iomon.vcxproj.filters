@@ -18,19 +18,39 @@
       <Extensions>inf;inv;inx;mof;mc;</Extensions>
     </Filter>
   </ItemGroup>
- <ItemGroup>
+  <ItemGroup>
     <Inf Include="iomon.inf">
       <Filter>Driver Files</Filter>
     </Inf>
-  </ItemGroup>  
-  <ItemGroup>
-    <ClCompile Include="iomon.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="iomon.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="common.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tracing.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="driver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="flt_registration.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="driver.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="flt_registration.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
