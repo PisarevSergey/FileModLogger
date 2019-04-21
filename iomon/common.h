@@ -8,3 +8,6 @@
 
 #include "driver.h"
 #include "flt_registration.h"
+#include "contexts.h"
+#include "stream_context.h"
+#include "operations.h"

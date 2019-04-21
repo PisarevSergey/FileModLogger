@@ -41,6 +41,15 @@
     <ClInclude Include="flt_registration.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="contexts.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stream_context.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="operations.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -50,6 +59,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="flt_registration.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="contexts.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stream_context.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="operations.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
