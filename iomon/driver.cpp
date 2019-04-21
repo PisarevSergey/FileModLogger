@@ -3,6 +3,34 @@
 
 namespace
 {
+  NTSTATUS unload(FLT_FILTER_UNLOAD_FLAGS)
+  {
+    delete get_driver();
+
+    EventWriteUnloadEvent(0);
+    im(DRIVER, "unloading");
+
+    EventUnregisterIomon();
+    WPP_CLEANUP(0);
+
+    return STATUS_SUCCESS;
+  }
+
+  NTSTATUS attach(_In_ PCFLT_RELATED_OBJECTS    /*FltObjects*/,
+                  _In_ FLT_INSTANCE_SETUP_FLAGS /*Flags*/,
+                  _In_ DEVICE_TYPE              VolumeDeviceType,
+                  _In_ FLT_FILESYSTEM_TYPE      /*VolumeFilesystemType*/)
+  {
+    NTSTATUS stat(STATUS_FLT_DO_NOT_ATTACH);
+
+    if (FILE_DEVICE_DISK_FILE_SYSTEM == VolumeDeviceType)
+    {
+      stat = STATUS_SUCCESS;
+    }
+
+    return stat;
+  }
+
   class driver_mem_alloc : public driver
   {
   public:
@@ -14,7 +42,28 @@ namespace
   public:
     filter_driver(NTSTATUS& stat, PDRIVER_OBJECT driver) : filter(0)
     {
-      stat = FltRegisterFilter(driver, flt_registration::get_filter_registration(), &filter);
+      FLT_REGISTRATION freg = {0};
+
+      freg.Size = sizeof(freg);
+      freg.Version = FLT_REGISTRATION_VERSION;
+
+      FLT_CONTEXT_REGISTRATION creg[] =
+      {
+        {FLT_STREAM_CONTEXT, 0, contexts::stream_context_cleanup_callback, contexts::get_stream_context_size(), 'crts'},
+        {FLT_CONTEXT_END}
+      };
+      freg.ContextRegistration = creg;
+
+      FLT_OPERATION_REGISTRATION oreg[] =
+      {
+        {IRP_MJ_OPERATION_END}
+      };
+      freg.OperationRegistration = oreg;
+
+      freg.FilterUnloadCallback = unload;
+      freg.InstanceSetupCallback = attach;
+
+      stat = FltRegisterFilter(driver, &freg, &filter);
       if (NT_SUCCESS(stat))
       {
       }
@@ -35,6 +84,11 @@ namespace
     NTSTATUS start_filtering()
     {
       return FltStartFiltering(filter);
+    }
+
+    PFLT_FILTER get_filter()
+    {
+      return filter;
     }
   private:
     PFLT_FILTER filter;
