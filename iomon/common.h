@@ -11,3 +11,4 @@
 #include "contexts.h"
 #include "stream_context.h"
 #include "operations.h"
+#include "undoc.h"

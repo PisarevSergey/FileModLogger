@@ -160,6 +160,7 @@
     <ClInclude Include="operations.h" />
     <ClInclude Include="stream_context.h" />
     <ClInclude Include="tracing.h" />
+    <ClInclude Include="undoc.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="contexts.cpp" />
