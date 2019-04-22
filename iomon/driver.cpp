@@ -56,6 +56,7 @@ namespace
 
       FLT_OPERATION_REGISTRATION oreg[] =
       {
+        {IRP_MJ_CREATE, 0, operations::pre_create, operations::post_create},
         {IRP_MJ_OPERATION_END}
       };
       freg.OperationRegistration = oreg;

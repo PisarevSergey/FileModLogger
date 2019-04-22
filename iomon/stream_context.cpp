@@ -79,7 +79,10 @@ namespace
   };
 
   class top_stream_context : public ref_counter_stream_context
-  {};
+  {
+  public:
+    void* __cdecl operator new(size_t, void* p) { return p; }
+  };
 }
 
 const size_t contexts::get_stream_context_size() { return sizeof(top_stream_context); }
@@ -88,8 +91,12 @@ contexts::stream_context* contexts::allocate_stream_context(NTSTATUS& stat)
 {
   PFLT_CONTEXT ctx(0);
 
-  stat = FltAllocateContext(get_driver()->get_filter(), FLT_STREAM_CONTEXT, contexts::get_stream_context_size(), NonPagedPool, &ctx);
-  if (!NT_SUCCESS(stat))
+  stat = FltAllocateContext(get_driver()->get_filter(), FLT_STREAM_CONTEXT, contexts::get_stream_context_size(), NonPagedPoolNx, &ctx);
+  if (NT_SUCCESS(stat))
+  {
+    new (ctx) top_stream_context;
+  }
+  else
   {
     ctx = 0;
   }
