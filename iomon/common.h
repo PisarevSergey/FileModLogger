@@ -12,3 +12,4 @@
 #include "create_dispatch.h"
 #include "support.h"
 #include "section_sync_dispatch.h"
+#include "writer_info.h"

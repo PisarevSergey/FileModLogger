@@ -161,6 +161,7 @@
     <ClInclude Include="support.h" />
     <ClInclude Include="tracing.h" />
     <ClInclude Include="undoc.h" />
+    <ClInclude Include="writer_info.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="create_dispatch.cpp" />
@@ -168,6 +169,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="section_sync_dispatch.cpp" />
     <ClCompile Include="stream_context.cpp" />
+    <ClCompile Include="writer_info.cpp" />
   </ItemGroup>
   <ItemGroup>
     <MessageCompile Include="iomon_etw.man" />

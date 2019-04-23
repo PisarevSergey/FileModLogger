@@ -45,4 +45,50 @@ namespace support
     T* ctx;
   };
 
+  template <typename T>
+  class list
+  {
+  public:
+    list()
+    {
+      InitializeListHead(&head);
+      KeInitializeSpinLock(&guard);
+    }
+
+    ~list()
+    {
+      while (T* e = pop())
+      {
+        delete e;
+      }
+    }
+
+    void push(T* entry)
+    {
+      KLOCK_QUEUE_HANDLE lh;
+      KeAcquireInStackQueuedSpinLock(&guard, &lh);
+      InsertTailList(&head, entry);
+      KeReleaseInStackQueuedSpinLock(&lh);
+    }
+
+    T* pop()
+    {
+      T* e(0);
+
+      KLOCK_QUEUE_HANDLE lh;
+      KeAcquireInStackQueuedSpinLock(&guard, &lh);
+
+      if (FALSE == IsListEmpty(&head))
+      {
+        e = RemoveHeadList(&head);
+      }
+
+      KeReleaseInStackQueuedSpinLock(&lh);
+
+      return e;
+    }
+  private:
+    LIST_ENTRY head;
+    KSPIN_LOCK guard;
+  };
 }
