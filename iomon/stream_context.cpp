@@ -78,7 +78,52 @@ namespace
     unsigned __int64 ref_count;
   };
 
-  class top_stream_context : public ref_counter_stream_context
+  class section_accounting_context : public ref_counter_stream_context
+  {
+  public:
+    section_accounting_context() : file_acquired_for_section_creation(false)
+    {}
+
+    bool is_file_acquired_for_section_creation() const { return file_acquired_for_section_creation; }
+    void set_file_acquired_for_section_creation() { file_acquired_for_section_creation = true; }
+    void reset_file_acquired_for_section_creation() { file_acquired_for_section_creation = false; }
+
+    void set_number_of_section_refs(PFLT_CALLBACK_DATA data)
+    {
+      number_of_section_refs = 0;
+      if (data->Iopb->TargetFileObject->SectionObjectPointer && data->Iopb->TargetFileObject->SectionObjectPointer->DataSectionObject)
+      {
+        auto ca(static_cast<undocumented_structs::control_area*>(data->Iopb->TargetFileObject->SectionObjectPointer->DataSectionObject));
+        number_of_section_refs = ca->NumberOfSectionReferences;
+      }
+    }
+
+    bool is_section_ref_increased(PFLT_CALLBACK_DATA data)
+    {
+      bool inc(false);
+
+      if (data->Iopb->TargetFileObject->SectionObjectPointer && data->Iopb->TargetFileObject->SectionObjectPointer->DataSectionObject)
+      {
+        auto ca(static_cast<undocumented_structs::control_area*>(data->Iopb->TargetFileObject->SectionObjectPointer->DataSectionObject));
+        inc = (ca->NumberOfSectionReferences - number_of_section_refs) ? true : false;
+      }
+
+
+      return inc;
+    }
+  private:
+    ULONG_PTR number_of_section_refs;
+    bool file_acquired_for_section_creation;
+  };
+
+  class writers_context : public section_accounting_context
+  {
+  public:
+  private:
+    LIST_ENTRY writers_head;
+  };
+
+  class top_stream_context : public writers_context
   {
   public:
     void* __cdecl operator new(size_t, void* p) { return p; }

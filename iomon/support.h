@@ -17,6 +17,13 @@ namespace support
       }
     }
 
+    T* release()
+    {
+      T* tmp(ctx);
+      ctx = 0;
+      return tmp;
+    }
+
     T* operator->()
     {
       return ctx;

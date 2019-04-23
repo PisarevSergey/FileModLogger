@@ -50,6 +50,9 @@
     <ClInclude Include="support.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="section_sync_dispatch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -62,6 +65,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="create_dispatch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="section_sync_dispatch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

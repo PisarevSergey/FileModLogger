@@ -11,3 +11,4 @@
 #include "undoc.h"
 #include "create_dispatch.h"
 #include "support.h"
+#include "section_sync_dispatch.h"
