@@ -80,7 +80,7 @@ namespace support
 
       if (FALSE == IsListEmpty(&head))
       {
-        e = RemoveHeadList(&head);
+        e = static_cast<T*>(RemoveHeadList(&head));
       }
 
       KeReleaseInStackQueuedSpinLock(&lh);

@@ -57,6 +57,7 @@ FLT_PREOP_CALLBACK_STATUS operations::pre_release_for_section_sync(
     {
       if (sc->is_section_ref_increased(Data))
       {
+        stat = sc->insert_writer(Data);
       }
 
       sc->reset_file_acquired_for_section_creation();

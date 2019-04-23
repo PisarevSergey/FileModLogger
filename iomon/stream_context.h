@@ -15,7 +15,7 @@ namespace contexts
     virtual void set_number_of_section_refs(PFLT_CALLBACK_DATA data) = 0;
     virtual bool is_section_ref_increased(PFLT_CALLBACK_DATA data) = 0;
 
-    //virtual NTSTATUS insert_writer(PFLT_CALLBACK_DATA data) = 0;
+    virtual NTSTATUS insert_writer(PFLT_CALLBACK_DATA data) = 0;
 
     virtual ~stream_context() {}
     void __cdecl operator delete(void*) {}

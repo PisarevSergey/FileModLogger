@@ -119,8 +119,20 @@ namespace
   class writers_context : public section_accounting_context
   {
   public:
+    NTSTATUS insert_writer(PFLT_CALLBACK_DATA data)
+    {
+      NTSTATUS stat(STATUS_UNSUCCESSFUL);
+
+      auto wi(create_writer_info(stat, data));
+      if (NT_SUCCESS(stat))
+      {
+        writers.push(wi);
+      }
+
+      return stat;
+    }
   private:
-    LIST_ENTRY writers_head;
+    support::list<writer_info> writers;
   };
 
   class top_stream_context : public writers_context
