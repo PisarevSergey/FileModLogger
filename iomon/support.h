@@ -52,7 +52,7 @@ namespace support
     list()
     {
       InitializeListHead(&head);
-      KeInitializeSpinLock(&guard);
+      ExInitializeFastMutex(&guard);
     }
 
     ~list()
@@ -65,30 +65,33 @@ namespace support
 
     void push(T* entry)
     {
-      KLOCK_QUEUE_HANDLE lh;
-      KeAcquireInStackQueuedSpinLock(&guard, &lh);
+      lock();
+
       InsertTailList(&head, entry);
-      KeReleaseInStackQueuedSpinLock(&lh);
+
+      unlock();
     }
 
     T* pop()
     {
       T* e(0);
 
-      KLOCK_QUEUE_HANDLE lh;
-      KeAcquireInStackQueuedSpinLock(&guard, &lh);
+      lock();
 
       if (FALSE == IsListEmpty(&head))
       {
         e = static_cast<T*>(RemoveHeadList(&head));
       }
 
-      KeReleaseInStackQueuedSpinLock(&lh);
+      unlock();
 
       return e;
     }
   private:
     LIST_ENTRY head;
-    KSPIN_LOCK guard;
+    FAST_MUTEX guard;
+  protected:
+    void lock() { ExAcquireFastMutex(&guard); }
+    void unlock() { ExReleaseFastMutex(&guard); }
   };
 }
