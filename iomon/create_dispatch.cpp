@@ -25,6 +25,29 @@ namespace
 
     return stat;
   }
+
+  NTSTATUS set_stream_handle_context(PFLT_CALLBACK_DATA data)
+  {
+    NTSTATUS stat(STATUS_UNSUCCESSFUL);
+
+    support::auto_flt_context<contexts::stream_handle_context> new_ctx(contexts::allocate_stream_handle_context(stat, data));
+    if (NT_SUCCESS(stat))
+    {
+      support::auto_flt_context<contexts::stream_handle_context> old_ctx;
+      stat = FltSetStreamHandleContext(data->Iopb->TargetInstance, data->Iopb->TargetFileObject, FLT_SET_CONTEXT_KEEP_IF_EXISTS, new_ctx, old_ctx);
+
+      if (NT_SUCCESS(stat))
+      {
+      }
+      else if ((STATUS_FLT_CONTEXT_ALREADY_DEFINED == stat) && old_ctx.operator bool())
+      {
+        stat = STATUS_SUCCESS;
+      }
+    }
+
+    return stat;
+  }
+
 }
 
 FLT_POSTOP_CALLBACK_STATUS operations::post_create(_Inout_  PFLT_CALLBACK_DATA       Data,
@@ -43,6 +66,10 @@ FLT_POSTOP_CALLBACK_STATUS operations::post_create(_Inout_  PFLT_CALLBACK_DATA  
         if (FALSE == FsRtlIsPagingFile(Data->Iopb->TargetFileObject))
         {
           stat = set_stream_context(Data);
+          if (NT_SUCCESS(stat))
+          {
+            stat = set_stream_handle_context(Data);
+          }
         }
 
         if (!NT_SUCCESS(stat) && (0 == (Data->Iopb->TargetFileObject->Flags & FO_HANDLE_CREATED)))

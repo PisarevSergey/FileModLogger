@@ -8,6 +8,7 @@
 
 #include "driver.h"
 #include "stream_context.h"
+#include "stream_handle_context.h"
 #include "undoc.h"
 #include "create_dispatch.h"
 #include "support.h"

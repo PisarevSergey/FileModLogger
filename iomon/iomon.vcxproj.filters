@@ -56,6 +56,9 @@
     <ClInclude Include="writer_info.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="stream_handle_context.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -74,6 +77,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="writer_info.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stream_handle_context.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

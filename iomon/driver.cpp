@@ -49,7 +49,8 @@ namespace
 
       FLT_CONTEXT_REGISTRATION creg[] =
       {
-        {FLT_STREAM_CONTEXT, 0, contexts::stream_context_cleanup_callback, contexts::get_stream_context_size(), 'crts'},
+        {FLT_STREAM_CONTEXT,       0, contexts::stream_context_cleanup_callback       , contexts::get_stream_context_size(),        'crts'},
+        {FLT_STREAMHANDLE_CONTEXT, 0, contexts::stream_handle_context_cleanup_callback, contexts::get_stream_handle_context_size(), 'tchs'},
         {FLT_CONTEXT_END}
       };
       freg.ContextRegistration = creg;
