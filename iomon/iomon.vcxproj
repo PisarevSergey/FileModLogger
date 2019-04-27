@@ -102,6 +102,7 @@
     </MessageCompile>
     <MessageCompile>
       <UseBaseNameOfInput>true</UseBaseNameOfInput>
+      <Verbose>true</Verbose>
     </MessageCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -117,6 +118,7 @@
     </MessageCompile>
     <MessageCompile>
       <UseBaseNameOfInput>true</UseBaseNameOfInput>
+      <Verbose>true</Verbose>
     </MessageCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -132,6 +134,7 @@
     </MessageCompile>
     <MessageCompile>
       <UseBaseNameOfInput>true</UseBaseNameOfInput>
+      <Verbose>true</Verbose>
     </MessageCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -147,6 +150,7 @@
     </MessageCompile>
     <MessageCompile>
       <UseBaseNameOfInput>true</UseBaseNameOfInput>
+      <Verbose>true</Verbose>
     </MessageCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -172,7 +176,12 @@
     <ClCompile Include="writer_info.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <MessageCompile Include="iomon_etw.man" />
+    <MessageCompile Include="iomon_etw.man">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </MessageCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

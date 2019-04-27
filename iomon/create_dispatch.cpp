@@ -1,34 +1,37 @@
 #include "common.h"
 
-FLT_PREOP_CALLBACK_STATUS operations::pre_create(_Inout_ PFLT_CALLBACK_DATA    Data,
-                                                 _In_    PCFLT_RELATED_OBJECTS /*FltObjects*/,
-                                                 _Out_   PVOID                 *CompletionContext)
+namespace
 {
-  FLT_PREOP_CALLBACK_STATUS fs_stat(FLT_PREOP_COMPLETE);
-
-  NTSTATUS stat(STATUS_UNSUCCESSFUL);
-  auto sc(contexts::allocate_stream_context(stat));
-  if (NT_SUCCESS(stat))
+  NTSTATUS set_stream_context(PFLT_CALLBACK_DATA data)
   {
-    *CompletionContext = sc;
-    fs_stat = FLT_PREOP_SUCCESS_WITH_CALLBACK;
-  }
+    NTSTATUS stat(STATUS_UNSUCCESSFUL);
 
-  if (!NT_SUCCESS(stat))
-  {
-    Data->IoStatus.Status = stat;
-    ASSERT(FLT_PREOP_COMPLETE == fs_stat);
-  }
+    support::auto_flt_context<contexts::stream_context> new_ctx(contexts::allocate_stream_context(stat));
+    if (NT_SUCCESS(stat))
+    {
+      support::auto_flt_context<contexts::stream_context> old_ctx;
+      stat = FltSetStreamContext(data->Iopb->TargetInstance, data->Iopb->TargetFileObject, FLT_SET_CONTEXT_KEEP_IF_EXISTS, new_ctx, old_ctx);
 
-  return fs_stat;
+      if (NT_SUCCESS(stat))
+      {
+        new_ctx->adjust_refcount_on_post_create();
+      }
+      else if ((STATUS_FLT_CONTEXT_ALREADY_DEFINED == stat) && old_ctx.operator bool())
+      {
+        old_ctx->adjust_refcount_on_post_create();
+        stat = STATUS_SUCCESS;
+      }
+    }
+
+    return stat;
+  }
 }
 
 FLT_POSTOP_CALLBACK_STATUS operations::post_create(_Inout_  PFLT_CALLBACK_DATA       Data,
                                                    _In_     PCFLT_RELATED_OBJECTS    /*FltObjects*/,
-                                                   _In_opt_ PVOID                    CompletionContext,
+                                                   _In_opt_ PVOID                    /*CompletionContext*/,
                                                    _In_     FLT_POST_OPERATION_FLAGS Flags)
 {
-  support::auto_flt_context<contexts::stream_context> new_ctx(CompletionContext);
   if (0 == (Flags & FLTFL_POST_OPERATION_DRAINING))
   {
     if (NT_SUCCESS(Data->IoStatus.Status) && (STATUS_REPARSE != Data->IoStatus.Status))
@@ -39,19 +42,7 @@ FLT_POSTOP_CALLBACK_STATUS operations::post_create(_Inout_  PFLT_CALLBACK_DATA  
       {
         if (FALSE == FsRtlIsPagingFile(Data->Iopb->TargetFileObject))
         {
-          support::auto_flt_context<contexts::stream_context> old_ctx;
-          stat = FltSetStreamContext(Data->Iopb->TargetInstance, Data->Iopb->TargetFileObject, FLT_SET_CONTEXT_KEEP_IF_EXISTS, new_ctx, old_ctx);
-
-          if (NT_SUCCESS(stat))
-          {
-            new_ctx->adjust_refcount_on_post_create();
-          }
-          else if ((STATUS_FLT_CONTEXT_ALREADY_DEFINED == stat) && old_ctx.operator bool())
-          {
-            old_ctx->adjust_refcount_on_post_create();
-            stat = STATUS_SUCCESS;
-          }
-
+          stat = set_stream_context(Data);
         }
 
         if (!NT_SUCCESS(stat) && (0 == (Data->Iopb->TargetFileObject->Flags & FO_HANDLE_CREATED)))

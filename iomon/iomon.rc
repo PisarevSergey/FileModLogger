@@ -8,3 +8,5 @@
 #define VER_INTERNALNAME_STR        "iomon.sys"
 
 #include "common.ver"
+
+#include "iomon_etw.rc"
