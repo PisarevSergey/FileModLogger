@@ -2,19 +2,10 @@
 
 namespace
 {
-  class sh_context_with_pid : public contexts::stream_handle_context
+  class sh_context_with_name : public contexts::stream_handle_context
   {
   public:
-    sh_context_with_pid(PFLT_CALLBACK_DATA data) : pid(FltGetRequestorProcessIdEx(data))
-    {}
-  private:
-    HANDLE pid;
-  };
-
-  class sh_context_with_name : public sh_context_with_pid
-  {
-  public:
-    sh_context_with_name(NTSTATUS& stat, PFLT_CALLBACK_DATA data) : sh_context_with_pid(data), fni(0)
+    sh_context_with_name(NTSTATUS& stat, PFLT_CALLBACK_DATA data) : fni(0)
     {
       stat = FltGetFileNameInformation(data, FLT_FILE_NAME_OPENED | FLT_FILE_NAME_QUERY_DEFAULT, &fni);
       if (!NT_SUCCESS(stat))
