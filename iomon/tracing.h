@@ -4,7 +4,7 @@
     WPP_DEFINE_CONTROL_GUID(TraceGuid,(40D79F49, 83AB, 4E6E, A00C, 0AEA9BE8D6C5),  \
         WPP_DEFINE_BIT(MAIN)                                                       \
         WPP_DEFINE_BIT(CREATE_DISPATCH)                                            \
-        WPP_DEFINE_BIT(ALLOCATOR)                                                  \
+        WPP_DEFINE_BIT(SECTION_SYNC_DISPATCH)                                      \
         WPP_DEFINE_BIT(CALLOUT_REGISTRATION)                                       \
         WPP_DEFINE_BIT(DRIVER) )
 
