@@ -25,7 +25,12 @@ namespace
 
     if (FILE_DEVICE_DISK_FILE_SYSTEM == VolumeDeviceType)
     {
+      im(DRIVER, "volume device type is disk file system, attaching");
       stat = STATUS_SUCCESS;
+    }
+    else
+    {
+      im(DRIVER, "skipping attach");
     }
 
     return stat;
@@ -70,9 +75,11 @@ namespace
       stat = FltRegisterFilter(driver, &freg, &filter);
       if (NT_SUCCESS(stat))
       {
+        im(DRIVER, "FltRegisterFilter success");
       }
       else
       {
+        em(DRIVER, "FltRegisterFilter failed with status %!STATUS!", stat);
         filter = 0;
       }
     }
@@ -81,7 +88,9 @@ namespace
     {
       if (filter)
       {
+        im(DRIVER, "unregistering filter");
         FltUnregisterFilter(filter);
+        im(DRIVER, "filter unregistered");
       }
     }
 
@@ -111,8 +120,13 @@ namespace
 driver* create_driver(NTSTATUS& stat, PDRIVER_OBJECT driver)
 {
   auto d(new (driver_mem) top_driver(stat, driver));
-  if (!NT_SUCCESS(stat))
+  if (NT_SUCCESS(stat))
   {
+    im(DRIVER, "driver initialized successfully");
+  }
+  else
+  {
+    em(DRIVER, "driver initialization failed with status %!STATUS!", stat);
     delete d;
     d = 0;
   }
