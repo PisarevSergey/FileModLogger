@@ -73,21 +73,25 @@
     <DebuggerFlavor>DbgengKernelDebugger</DebuggerFlavor>
     <OutDir>$(SolutionDir)out\$(PlatformShortName)\$(ConfigurationName)\</OutDir>
     <IntDir>$(SolutionDir)tmp\$(PlatformShortName)\$(ConfigurationName)\</IntDir>
+    <Inf2CatUseLocalTime>true</Inf2CatUseLocalTime>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <DebuggerFlavor>DbgengKernelDebugger</DebuggerFlavor>
     <OutDir>$(SolutionDir)out\$(PlatformShortName)\$(ConfigurationName)\</OutDir>
     <IntDir>$(SolutionDir)tmp\$(PlatformShortName)\$(ConfigurationName)\</IntDir>
+    <Inf2CatUseLocalTime>true</Inf2CatUseLocalTime>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <DebuggerFlavor>DbgengKernelDebugger</DebuggerFlavor>
     <OutDir>$(SolutionDir)out\$(PlatformShortName)\$(ConfigurationName)\</OutDir>
     <IntDir>$(SolutionDir)tmp\$(PlatformShortName)\$(ConfigurationName)\</IntDir>
+    <Inf2CatUseLocalTime>true</Inf2CatUseLocalTime>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <DebuggerFlavor>DbgengKernelDebugger</DebuggerFlavor>
     <OutDir>$(SolutionDir)out\$(PlatformShortName)\$(ConfigurationName)\</OutDir>
     <IntDir>$(SolutionDir)tmp\$(PlatformShortName)\$(ConfigurationName)\</IntDir>
+    <Inf2CatUseLocalTime>true</Inf2CatUseLocalTime>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Link>
@@ -104,6 +108,9 @@
       <UseBaseNameOfInput>true</UseBaseNameOfInput>
       <Verbose>true</Verbose>
     </MessageCompile>
+    <ResourceCompile>
+      <ShowProgress>true</ShowProgress>
+    </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Link>
@@ -120,6 +127,9 @@
       <UseBaseNameOfInput>true</UseBaseNameOfInput>
       <Verbose>true</Verbose>
     </MessageCompile>
+    <ResourceCompile>
+      <ShowProgress>true</ShowProgress>
+    </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Link>
@@ -136,6 +146,9 @@
       <UseBaseNameOfInput>true</UseBaseNameOfInput>
       <Verbose>true</Verbose>
     </MessageCompile>
+    <ResourceCompile>
+      <ShowProgress>true</ShowProgress>
+    </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Link>
@@ -152,6 +165,9 @@
       <UseBaseNameOfInput>true</UseBaseNameOfInput>
       <Verbose>true</Verbose>
     </MessageCompile>
+    <ResourceCompile>
+      <ShowProgress>true</ShowProgress>
+    </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
     <FilesToPackage Include="$(TargetPath)" />
