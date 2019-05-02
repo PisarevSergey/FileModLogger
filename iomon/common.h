@@ -15,3 +15,4 @@
 #include "support.h"
 #include "section_sync_dispatch.h"
 #include "write_dispatch.h"
+#include "close_dispatch.h"
