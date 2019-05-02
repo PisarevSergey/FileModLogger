@@ -18,30 +18,67 @@ namespace
   class writer_info_with_file_name : public writer_info_with_pid
   {
   public:
-    writer_info_with_file_name(NTSTATUS& stat, PFLT_CALLBACK_DATA data) : writer_info_with_pid(data), fni(0)
+    writer_info_with_file_name(NTSTATUS& stat, PFLT_CALLBACK_DATA data) : writer_info_with_pid(data), file_name(0)
     {
-      stat = FltGetFileNameInformation(data, FLT_FILE_NAME_OPENED | FLT_FILE_NAME_QUERY_DEFAULT, &fni);
-      if (!NT_SUCCESS(stat))
+      support::auto_flt_context<contexts::stream_handle_context> shc;
+      stat = FltGetStreamHandleContext(data->Iopb->TargetInstance, data->Iopb->TargetFileObject, shc);
+      if (NT_SUCCESS(stat))
       {
-        fni = 0;
+        im(WRITER_INFO, "FltGetStreamHandleContext success");
+
+        const USHORT name_len(sizeof(file_name[0]) + shc->get_file_name()->MaximumLength);
+        file_name = static_cast<UNICODE_STRING*>(ExAllocatePoolWithTag(PagedPool, name_len, 'nlif'));
+        if (file_name)
+        {
+          im(WRITER_INFO, "file name buffer allocated successfully");
+
+          file_name->Buffer = reinterpret_cast<wchar_t*>(file_name + 1);
+          file_name->Length = shc->get_file_name()->Length;
+          file_name->MaximumLength = shc->get_file_name()->MaximumLength;
+          RtlCopyUnicodeString(file_name, shc->get_file_name());
+          stat = STATUS_SUCCESS;
+        }
+        else
+        {
+          stat = STATUS_INSUFFICIENT_RESOURCES;
+          em(WRITER_INFO, "failed to allocate file name buffer");
+        }
+      }
+      else
+      {
+        em(WRITER_INFO, "FltGetStreamHandleContext failed with status %!STATUS!", stat);
       }
     }
 
     ~writer_info_with_file_name()
     {
-      if (fni)
+      if (file_name)
       {
-        FltReleaseFileNameInformation(fni);
+        ExFreePool(file_name);
       }
+    }
+
+    bool is_equal_writer_info(const writer_info* wi) const
+    {
+      bool equal(false);
+      if (get_pid() == wi->get_pid())
+      {
+        if (TRUE == RtlEqualUnicodeString(get_name(), wi->get_name(), TRUE))
+        {
+          equal = true;
+        }
+      }
+
+      return equal;
     }
 
     UNICODE_STRING* get_name() const
     {
-      return &fni->Name;
+      return file_name;
     }
 
   private:
-    PFLT_FILE_NAME_INFORMATION fni;
+    UNICODE_STRING* file_name;
   };
 
   class top_writer_info : public writer_info_with_file_name
