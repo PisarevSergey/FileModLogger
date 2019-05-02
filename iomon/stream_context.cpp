@@ -26,7 +26,7 @@ namespace
 
       if (data->Iopb->TargetFileObject->SectionObjectPointer)
       {
-        cache_fo = CcGetFileObjectFromSectionPtrsRef(data->Iopb->TargetFileObject->SectionObjectPointer);
+        cache_fo = CcGetFileObjectFromSectionPtrs(data->Iopb->TargetFileObject->SectionObjectPointer);
       }
 
       KLOCK_QUEUE_HANDLE lh;
@@ -54,11 +54,6 @@ namespace
       }
 
       unlock_counter(&lh);
-
-      if (cache_fo)
-      {
-        ObDereferenceObject(cache_fo);
-      }
 
       return last_close;
     }
