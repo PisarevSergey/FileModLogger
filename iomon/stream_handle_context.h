@@ -5,6 +5,8 @@ namespace contexts
   class stream_handle_context
   {
   public:
+    virtual UNICODE_STRING* get_file_name() const = 0;
+
     virtual ~stream_handle_context() {}
     void __cdecl operator delete(void*) {}
   };

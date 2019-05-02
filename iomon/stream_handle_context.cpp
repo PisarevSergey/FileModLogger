@@ -27,6 +27,11 @@ namespace
         FltReleaseFileNameInformation(fni);
       }
     }
+
+    virtual UNICODE_STRING* get_file_name() const
+    {
+      return &fni->Name;
+    }
   private:
     PFLT_FILE_NAME_INFORMATION fni;
   };

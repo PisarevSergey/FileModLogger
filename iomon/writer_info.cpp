@@ -1,9 +1,8 @@
 #include "common.h"
+#include "writer_info.tmh"
 
 namespace
 {
-
-
   class writer_info_with_pid : public writer_info
   {
   public:
