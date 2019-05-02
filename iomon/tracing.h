@@ -10,6 +10,7 @@
         WPP_DEFINE_BIT(WRITER_INFO)                                                \
         WPP_DEFINE_BIT(WRITE_DISPATCH)                                             \
         WPP_DEFINE_BIT(CLOSE_DISPATCH)                                             \
+        WPP_DEFINE_BIT(CLOSE_REPORT)                                               \
         WPP_DEFINE_BIT(DRIVER) )
 
 #define WPP_LEVEL_FLAGS_LOGGER(lvl,flags) \

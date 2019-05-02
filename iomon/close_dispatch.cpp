@@ -18,11 +18,11 @@ FLT_PREOP_CALLBACK_STATUS operations::pre_close(
       {
         while (auto wi = sc->extract_next_writer())
         {
-          im(CLOSE_DISPATCH, "write by process %p for file %wZ", wi->get_pid(), wi->get_name());
+          im(CLOSE_REPORT, "write by process %p for file %wZ", wi->get_pid(), wi->get_name());
 
           delete wi;
         }
-        im(CLOSE_DISPATCH, "totally written %I64x", sc->get_total_written_len());
+        im(CLOSE_REPORT, "totally written %I64x", sc->get_total_written_len());
       }
     }
   }
