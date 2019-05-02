@@ -169,6 +169,11 @@ namespace
 
       return stat;
     }
+
+    writer_info* extract_next_writer()
+    {
+      return writers.pop();
+    }
   private:
     writer_info_list writers;
   };

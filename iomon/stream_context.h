@@ -16,6 +16,7 @@ namespace contexts
     virtual bool is_section_ref_increased(PFLT_CALLBACK_DATA data) = 0;
 
     virtual NTSTATUS insert_writer(PFLT_CALLBACK_DATA data) = 0;
+    virtual writer_info* extract_next_writer() = 0;
 
     virtual void increase_total_written_len(LONG64 val_to_add) = 0;
     virtual LONG64 get_total_written_len() const = 0;
