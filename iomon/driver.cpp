@@ -62,9 +62,10 @@ namespace
 
       FLT_OPERATION_REGISTRATION oreg[] =
       {
-        {IRP_MJ_CREATE,                              0,                                        0, operations::post_create},
-        {IRP_MJ_ACQUIRE_FOR_SECTION_SYNCHRONIZATION, 0, operations::pre_acquire_for_section_sync, operations::post_acquire_for_section_sync},
-        {IRP_MJ_RELEASE_FOR_SECTION_SYNCHRONIZATION, 0, operations::pre_release_for_section_sync},
+        {IRP_MJ_CREATE,                                          0,                                        0, operations::post_create},
+        {IRP_MJ_ACQUIRE_FOR_SECTION_SYNCHRONIZATION,             0, operations::pre_acquire_for_section_sync, operations::post_acquire_for_section_sync},
+        {IRP_MJ_RELEASE_FOR_SECTION_SYNCHRONIZATION,             0, operations::pre_release_for_section_sync},
+        {IRP_MJ_WRITE, FLTFL_OPERATION_REGISTRATION_SKIP_CACHED_IO, operations::pre_write},
         {IRP_MJ_OPERATION_END}
       };
       freg.OperationRegistration = oreg;

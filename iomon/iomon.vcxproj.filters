@@ -59,6 +59,9 @@
     <ClInclude Include="stream_handle_context.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="write_dispatch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -80,6 +83,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="stream_handle_context.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="write_dispatch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="support.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

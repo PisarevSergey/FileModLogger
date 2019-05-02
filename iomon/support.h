@@ -90,4 +90,6 @@ namespace support
     void lock() { KeWaitForMutexObject(&guard, Executive, KernelMode, FALSE, 0); }
     void unlock() { KeReleaseMutex(&guard, FALSE); }
   };
+
+  bool does_file_have_mapped_views(PFILE_OBJECT fo);
 }

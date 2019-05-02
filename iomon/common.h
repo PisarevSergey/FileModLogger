@@ -14,3 +14,4 @@
 #include "support.h"
 #include "section_sync_dispatch.h"
 #include "writer_info.h"
+#include "write_dispatch.h"
