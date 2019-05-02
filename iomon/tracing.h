@@ -6,6 +6,7 @@
         WPP_DEFINE_BIT(CREATE_DISPATCH)                                            \
         WPP_DEFINE_BIT(SECTION_SYNC_DISPATCH)                                      \
         WPP_DEFINE_BIT(STREAM_CONTEXT)                                             \
+        WPP_DEFINE_BIT(STREAM_HANDLE_CONTEXT)                                      \
         WPP_DEFINE_BIT(DRIVER) )
 
 #define WPP_LEVEL_FLAGS_LOGGER(lvl,flags) \
