@@ -173,7 +173,26 @@ namespace
     writer_info_list writers;
   };
 
-  class top_stream_context : public writers_context
+  class write_length_context : public writers_context
+  {
+  public:
+    write_length_context() : total_len(0)
+    {}
+
+    void increase_total_written_len(LONG64 val_to_add)
+    {
+      InterlockedAdd64(&total_len, val_to_add);
+    }
+
+    LONG64 get_total_written_len() const
+    {
+      return total_len;
+    }
+  private:
+    LONG64 total_len;
+  };
+
+  class top_stream_context : public write_length_context
   {
   public:
     void* __cdecl operator new(size_t, void* p) { return p; }

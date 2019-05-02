@@ -17,6 +17,9 @@ namespace contexts
 
     virtual NTSTATUS insert_writer(PFLT_CALLBACK_DATA data) = 0;
 
+    virtual void increase_total_written_len(LONG64 val_to_add) = 0;
+    virtual LONG64 get_total_written_len() const = 0;
+
     virtual ~stream_context() {}
     void __cdecl operator delete(void*) {}
   };
