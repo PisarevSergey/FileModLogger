@@ -158,9 +158,11 @@ namespace
         stat = writers.push_unique(wi);
         if (NT_SUCCESS(stat))
         {
+          im(STREAM_CONTEXT, "writer's info successfully inserted");
         }
         else
         {
+          em(STREAM_CONTEXT, "failed to insert writer's info with status %!STATUS!", stat);
           delete wi;
         }
       }
