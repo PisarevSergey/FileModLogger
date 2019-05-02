@@ -1,4 +1,5 @@
 #include "common.h"
+#include "stream_context.tmh"
 
 namespace
 {
@@ -28,6 +29,8 @@ namespace
       {
         cache_fo = CcGetFileObjectFromSectionPtrs(data->Iopb->TargetFileObject->SectionObjectPointer);
       }
+
+      im(STREAM_CONTEXT, "cache file object is %p, current file object is %p", cache_fo, data->Iopb->TargetFileObject);
 
       KLOCK_QUEUE_HANDLE lh;
       lock_counter(&lh);
@@ -146,10 +149,12 @@ contexts::stream_context* contexts::allocate_stream_context(NTSTATUS& stat)
   stat = FltAllocateContext(get_driver()->get_filter(), FLT_STREAM_CONTEXT, contexts::get_stream_context_size(), NonPagedPoolNx, &ctx);
   if (NT_SUCCESS(stat))
   {
+    im(STREAM_CONTEXT, "FltAllocateContext success");
     new (ctx) top_stream_context;
   }
   else
   {
+    em(STREAM_CONTEXT, "FltAllocateContext failed with status %!STATUS!", stat);
     ctx = 0;
   }
 
