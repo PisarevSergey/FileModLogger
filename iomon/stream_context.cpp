@@ -114,6 +114,37 @@ namespace
     bool file_acquired_for_section_creation;
   };
 
+  class writer_info_list : public support::list<writer_info>
+  {
+  public:
+    NTSTATUS push_unique(writer_info* wi)
+    {
+      NTSTATUS stat(STATUS_UNSUCCESSFUL);
+
+      lock();
+
+      bool unique(true);
+      for (auto cwi(head.Flink); cwi != &head; cwi = cwi->Flink)
+      {
+        if (static_cast<writer_info*>(cwi)->is_equal_writer_info(wi))
+        {
+          unique = false;
+          break;
+        }
+      }
+
+      if (unique)
+      {
+        simple_push_unsafe(wi);
+        stat = STATUS_SUCCESS;
+      }
+
+      unlock();
+
+      return stat;
+    }
+  };
+
   class writers_context : public section_accounting_context
   {
   public:
@@ -124,13 +155,20 @@ namespace
       auto wi(create_writer_info(stat, data));
       if (NT_SUCCESS(stat))
       {
-        writers.push(wi);
+        stat = writers.push_unique(wi);
+        if (NT_SUCCESS(stat))
+        {
+        }
+        else
+        {
+          delete wi;
+        }
       }
 
       return stat;
     }
   private:
-    support::list<writer_info> writers;
+    writer_info_list writers;
   };
 
   class top_stream_context : public writers_context

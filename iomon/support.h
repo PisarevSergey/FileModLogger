@@ -52,7 +52,7 @@ namespace support
     list()
     {
       InitializeListHead(&head);
-      ExInitializeFastMutex(&guard);
+      KeInitializeMutex(&guard, 0);
     }
 
     ~list()
@@ -63,13 +63,9 @@ namespace support
       }
     }
 
-    void push(T* entry)
+    void simple_push_unsafe(T* entry)
     {
-      lock();
-
       InsertTailList(&head, entry);
-
-      unlock();
     }
 
     T* pop()
@@ -88,10 +84,10 @@ namespace support
       return e;
     }
   private:
-    LIST_ENTRY head;
-    FAST_MUTEX guard;
+    KMUTEX guard;
   protected:
-    void lock() { ExAcquireFastMutex(&guard); }
-    void unlock() { ExReleaseFastMutex(&guard); }
+    LIST_ENTRY head;
+    void lock() { KeWaitForMutexObject(&guard, Executive, KernelMode, FALSE, 0); }
+    void unlock() { KeReleaseMutex(&guard, FALSE); }
   };
 }
