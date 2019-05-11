@@ -1,7 +1,8 @@
 #include "common.h"
 #include "write_dispatch.tmh"
 
-FLT_PREOP_CALLBACK_STATUS operations::pre_write(
+FLT_PREOP_CALLBACK_STATUS
+operations::pre_write(
   _Inout_ PFLT_CALLBACK_DATA    Data,
   _In_    PCFLT_RELATED_OBJECTS /*FltObjects*/,
   _Out_   PVOID*  /*CompletionContext*/

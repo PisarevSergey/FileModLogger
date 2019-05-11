@@ -1,7 +1,8 @@
 #include "common.h"
 #include "section_sync_dispatch.tmh"
 
-FLT_PREOP_CALLBACK_STATUS operations::pre_acquire_for_section_sync(
+FLT_PREOP_CALLBACK_STATUS
+operations::pre_acquire_for_section_sync(
   _Inout_ PFLT_CALLBACK_DATA    Data,
   _In_    PCFLT_RELATED_OBJECTS /*FltObjects*/,
   _Out_   PVOID                 *CompletionContext
@@ -30,7 +31,8 @@ FLT_PREOP_CALLBACK_STATUS operations::pre_acquire_for_section_sync(
   return fs_stat;
 }
 
-FLT_POSTOP_CALLBACK_STATUS operations::post_acquire_for_section_sync(
+FLT_POSTOP_CALLBACK_STATUS
+operations::post_acquire_for_section_sync(
   _Inout_  PFLT_CALLBACK_DATA       Data,
   _In_     PCFLT_RELATED_OBJECTS    /*FltObjects*/,
   _In_opt_ PVOID                    CompletionContext,
@@ -53,7 +55,8 @@ FLT_POSTOP_CALLBACK_STATUS operations::post_acquire_for_section_sync(
   return FLT_POSTOP_FINISHED_PROCESSING;
 }
 
-FLT_PREOP_CALLBACK_STATUS operations::pre_release_for_section_sync(
+FLT_PREOP_CALLBACK_STATUS
+operations::pre_release_for_section_sync(
   _Inout_ PFLT_CALLBACK_DATA    Data,
   _In_    PCFLT_RELATED_OBJECTS /*FltObjects*/,
   _Out_   PVOID*  /*CompletionContext*/)
