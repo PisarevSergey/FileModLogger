@@ -30,7 +30,7 @@ namespace
         cache_fo = CcGetFileObjectFromSectionPtrs(data->Iopb->TargetFileObject->SectionObjectPointer);
       }
 
-      im(STREAM_CONTEXT, "cache file object is %p, current file object is %p", cache_fo, data->Iopb->TargetFileObject);
+      info_message(STREAM_CONTEXT, "cache file object is %p, current file object is %p", cache_fo, data->Iopb->TargetFileObject);
 
       KLOCK_QUEUE_HANDLE lh;
       lock_counter(&lh);
@@ -158,11 +158,11 @@ namespace
         stat = writers.push_unique(wi);
         if (NT_SUCCESS(stat))
         {
-          im(STREAM_CONTEXT, "writer's info successfully inserted");
+          info_message(STREAM_CONTEXT, "writer's info successfully inserted");
         }
         else
         {
-          em(STREAM_CONTEXT, "failed to insert writer's info with status %!STATUS!", stat);
+          error_message(STREAM_CONTEXT, "failed to insert writer's info with status %!STATUS!", stat);
           delete wi;
         }
       }
@@ -213,12 +213,12 @@ contexts::stream_context* contexts::allocate_stream_context(NTSTATUS& stat)
   stat = FltAllocateContext(get_driver()->get_filter(), FLT_STREAM_CONTEXT, contexts::get_stream_context_size(), NonPagedPoolNx, &ctx);
   if (NT_SUCCESS(stat))
   {
-    im(STREAM_CONTEXT, "FltAllocateContext success");
+    info_message(STREAM_CONTEXT, "FltAllocateContext success");
     new (ctx) top_stream_context;
   }
   else
   {
-    em(STREAM_CONTEXT, "FltAllocateContext failed with status %!STATUS!", stat);
+    error_message(STREAM_CONTEXT, "FltAllocateContext failed with status %!STATUS!", stat);
     ctx = 0;
   }
 

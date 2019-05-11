@@ -11,11 +11,11 @@ namespace
       stat = FltGetFileNameInformation(data, FLT_FILE_NAME_OPENED | FLT_FILE_NAME_QUERY_DEFAULT, &fni);
       if (NT_SUCCESS(stat))
       {
-        im(STREAM_HANDLE_CONTEXT, "FltGetFileNameInformation success, file name is %wZ", &fni->Name);
+        info_message(STREAM_HANDLE_CONTEXT, "FltGetFileNameInformation success, file name is %wZ", &fni->Name);
       }
       else
       {
-        em(STREAM_HANDLE_CONTEXT, "FltGetFileNameInformation failed with status %!STATUS!", stat);
+        error_message(STREAM_HANDLE_CONTEXT, "FltGetFileNameInformation failed with status %!STATUS!", stat);
         fni = 0;
       }
     }
@@ -60,21 +60,21 @@ contexts::stream_handle_context* contexts::allocate_stream_handle_context(NTSTAT
   stat = FltAllocateContext(get_driver()->get_filter(), FLT_STREAMHANDLE_CONTEXT, contexts::get_stream_handle_context_size(), PagedPool, &ctx);
   if (NT_SUCCESS(stat))
   {
-    im(STREAM_HANDLE_CONTEXT, "FltAllocateContext success");
+    info_message(STREAM_HANDLE_CONTEXT, "FltAllocateContext success");
     new(ctx)top_sh_context(stat, data);
     if (NT_SUCCESS(stat))
     {
-      im(STREAM_HANDLE_CONTEXT, "stream handle context init success");
+      info_message(STREAM_HANDLE_CONTEXT, "stream handle context init success");
     }
     else
     {
-      em(STREAM_HANDLE_CONTEXT, "stream handle context init failed with status %!STATUS!", stat);
+      error_message(STREAM_HANDLE_CONTEXT, "stream handle context init failed with status %!STATUS!", stat);
       FltReleaseContext(ctx);
     }
   }
   else
   {
-    em(STREAM_HANDLE_CONTEXT, "FltAllocateContext failed with status %!STATUS!", stat);
+    error_message(STREAM_HANDLE_CONTEXT, "FltAllocateContext failed with status %!STATUS!", stat);
     ctx = 0;
   }
 

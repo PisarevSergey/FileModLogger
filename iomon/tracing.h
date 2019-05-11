@@ -20,26 +20,26 @@
            (WPP_LEVEL_ENABLED(flags) && WPP_CONTROL(WPP_BIT_ ## flags).Level >= lvl)
 
 //begin_wpp config
-//USEPREFIX (fm, "%!STDPREFIX! %!FILE! %!FUNC! %!LINE!");
-//FUNC fm{LEVEL=TRACE_LEVEL_FATAL}(FLAGS, MSG, ...);
+//USEPREFIX (fatal_message, "%!STDPREFIX! %!FILE! %!FUNC! %!LINE!");
+//FUNC fatal_message{LEVEL=TRACE_LEVEL_FATAL}(FLAGS, MSG, ...);
 //end_wpp
 
 //begin_wpp config
-//USEPREFIX (em, "%!STDPREFIX! %!FILE! %!FUNC! %!LINE!");
-//FUNC em{LEVEL=TRACE_LEVEL_ERROR}(FLAGS, MSG, ...);
+//USEPREFIX (error_message, "%!STDPREFIX! %!FILE! %!FUNC! %!LINE!");
+//FUNC error_message{LEVEL=TRACE_LEVEL_ERROR}(FLAGS, MSG, ...);
 //end_wpp
 
 //begin_wpp config
-//USEPREFIX (wm, "%!STDPREFIX! %!FILE! %!FUNC! %!LINE!");
-//FUNC wm{LEVEL=TRACE_LEVEL_WARNING}(FLAGS, MSG, ...);
+//USEPREFIX (warning_message, "%!STDPREFIX! %!FILE! %!FUNC! %!LINE!");
+//FUNC warning_message{LEVEL=TRACE_LEVEL_WARNING}(FLAGS, MSG, ...);
 //end_wpp
 
 //begin_wpp config
-//USEPREFIX (im, "%!STDPREFIX! %!FILE! %!FUNC! %!LINE!");
-//FUNC im{LEVEL=TRACE_LEVEL_INFORMATION}(FLAGS, MSG, ...);
+//USEPREFIX (info_message, "%!STDPREFIX! %!FILE! %!FUNC! %!LINE!");
+//FUNC info_message{LEVEL=TRACE_LEVEL_INFORMATION}(FLAGS, MSG, ...);
 //end_wpp
 
 //begin_wpp config
-//USEPREFIX (vm, "%!STDPREFIX! %!FILE! %!FUNC! %!LINE!");
-//FUNC vm{LEVEL=TRACE_LEVEL_VERBOSE}(FLAGS, MSG, ...);
+//USEPREFIX (verbose_message, "%!STDPREFIX! %!FILE! %!FUNC! %!LINE!");
+//FUNC verbose_message{LEVEL=TRACE_LEVEL_VERBOSE}(FLAGS, MSG, ...);
 //end_wpp

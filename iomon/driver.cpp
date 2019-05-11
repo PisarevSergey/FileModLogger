@@ -6,7 +6,7 @@ namespace
   NTSTATUS unload(FLT_FILTER_UNLOAD_FLAGS)
   {
     EventWriteUnloadEvent(0);
-    im(DRIVER, "unloading");
+    info_message(DRIVER, "unloading");
 
     delete get_driver();
 
@@ -22,20 +22,20 @@ namespace
 
     if (FILE_DEVICE_DISK_FILE_SYSTEM == VolumeDeviceType)
     {
-      im(DRIVER, "volume device type is disk file system");
+      info_message(DRIVER, "volume device type is disk file system");
       if (Flags & FLTFL_INSTANCE_SETUP_NEWLY_MOUNTED_VOLUME)
       {
-        im(DRIVER, "new volume, attaching");
+        info_message(DRIVER, "new volume, attaching");
         stat = STATUS_SUCCESS;
       }
       else
       {
-        im(DRIVER, "not a new volume, skipping attach");
+        info_message(DRIVER, "not a new volume, skipping attach");
       }
     }
     else
     {
-      im(DRIVER, "skipping attach");
+      info_message(DRIVER, "skipping attach");
     }
 
     return stat;
@@ -98,11 +98,11 @@ namespace
       stat = FltRegisterFilter(driver, &freg, &filter);
       if (NT_SUCCESS(stat))
       {
-        im(DRIVER, "FltRegisterFilter success");
+        info_message(DRIVER, "FltRegisterFilter success");
       }
       else
       {
-        em(DRIVER, "FltRegisterFilter failed with status %!STATUS!", stat);
+        error_message(DRIVER, "FltRegisterFilter failed with status %!STATUS!", stat);
         filter = 0;
       }
     }
@@ -111,9 +111,9 @@ namespace
     {
       if (filter)
       {
-        im(DRIVER, "unregistering filter");
+        info_message(DRIVER, "unregistering filter");
         FltUnregisterFilter(filter);
-        im(DRIVER, "filter unregistered");
+        info_message(DRIVER, "filter unregistered");
       }
     }
 
@@ -145,11 +145,11 @@ driver* create_driver(NTSTATUS& stat, PDRIVER_OBJECT driver)
   auto d(new (driver_mem) top_driver(stat, driver));
   if (NT_SUCCESS(stat))
   {
-    im(DRIVER, "driver initialized successfully");
+    info_message(DRIVER, "driver initialized successfully");
   }
   else
   {
-    em(DRIVER, "driver initialization failed with status %!STATUS!", stat); //can use here, tracing init can't fail
+    error_message(DRIVER, "driver initialization failed with status %!STATUS!", stat); //can use here, tracing init can't fail
     delete d;
     d = 0;
   }

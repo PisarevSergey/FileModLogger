@@ -11,24 +11,24 @@ FLT_PREOP_CALLBACK_STATUS operations::pre_close(
   NTSTATUS stat(FltGetStreamContext(Data->Iopb->TargetInstance, Data->Iopb->TargetFileObject, sc));
   if (NT_SUCCESS(stat))
   {
-    im(CLOSE_DISPATCH, "FltGetStreamContext success");
+    info_message(CLOSE_DISPATCH, "FltGetStreamContext success");
     if (sc->adjust_refcount_on_pre_close_and_check_for_last_close(Data))
     {
       if (sc->get_total_written_len())
       {
         while (auto wi = sc->extract_next_writer())
         {
-          im(CLOSE_REPORT, "write by process %p for file %wZ", wi->get_pid(), wi->get_name());
+          info_message(CLOSE_REPORT, "write by process %p for file %wZ", wi->get_pid(), wi->get_name());
 
           delete wi;
         }
-        im(CLOSE_REPORT, "totally written %I64x", sc->get_total_written_len());
+        info_message(CLOSE_REPORT, "totally written %I64x", sc->get_total_written_len());
       }
     }
   }
   else
   {
-    em(CLOSE_DISPATCH, "FltGetStreamContext failed with status %!STATUS!", stat);
+    error_message(CLOSE_DISPATCH, "FltGetStreamContext failed with status %!STATUS!", stat);
   }
 
   return FLT_PREOP_SUCCESS_NO_CALLBACK;

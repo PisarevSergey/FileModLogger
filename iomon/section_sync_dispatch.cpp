@@ -12,18 +12,18 @@ FLT_PREOP_CALLBACK_STATUS operations::pre_acquire_for_section_sync(
   if ((SyncTypeCreateSection == Data->Iopb->Parameters.AcquireForSectionSynchronization.SyncType) &&
       (PAGE_READWRITE == (PAGE_READWRITE & Data->Iopb->Parameters.AcquireForSectionSynchronization.PageProtection)))
   {
-    im(SECTION_SYNC_DISPATCH, "acquiring file for section creation with read/write access");
+    info_message(SECTION_SYNC_DISPATCH, "acquiring file for section creation with read/write access");
     support::auto_flt_context<contexts::stream_context> sc;
     NTSTATUS stat(FltGetStreamContext(Data->Iopb->TargetInstance, Data->Iopb->TargetFileObject, sc));
     if (NT_SUCCESS(stat))
     {
-      im(SECTION_SYNC_DISPATCH, "FltGetStreamContext success");
+      info_message(SECTION_SYNC_DISPATCH, "FltGetStreamContext success");
       fs_stat = FLT_PREOP_SUCCESS_WITH_CALLBACK;
       *CompletionContext = sc.release();
     }
     else
     {
-      em(SECTION_SYNC_DISPATCH, "FltGetStreamContext failed with status %!STATUS!", stat);
+      error_message(SECTION_SYNC_DISPATCH, "FltGetStreamContext failed with status %!STATUS!", stat);
     }
   }
 
@@ -40,10 +40,10 @@ FLT_POSTOP_CALLBACK_STATUS operations::post_acquire_for_section_sync(
 
   if (0 == (Flags & FLTFL_POST_OPERATION_DRAINING))
   {
-    im(SECTION_SYNC_DISPATCH, "operation is not draining");
+    info_message(SECTION_SYNC_DISPATCH, "operation is not draining");
     if (NT_SUCCESS(Data->IoStatus.Status))
     {
-      im(SECTION_SYNC_DISPATCH, "file was acquired successfully for section creation");
+      info_message(SECTION_SYNC_DISPATCH, "file was acquired successfully for section creation");
       sc->set_file_acquired_for_section_creation();
       sc->set_number_of_section_refs(Data);
     }
@@ -62,10 +62,10 @@ FLT_PREOP_CALLBACK_STATUS operations::pre_release_for_section_sync(
   NTSTATUS stat(FltGetStreamContext(Data->Iopb->TargetInstance, Data->Iopb->TargetFileObject, sc));
   if (NT_SUCCESS(stat))
   {
-    im(SECTION_SYNC_DISPATCH, "FltGetStreamContext success");
+    info_message(SECTION_SYNC_DISPATCH, "FltGetStreamContext success");
     if (sc->is_file_acquired_for_section_creation())
     {
-      im(SECTION_SYNC_DISPATCH, "this file acquired for section creation");
+      info_message(SECTION_SYNC_DISPATCH, "this file acquired for section creation");
       if (sc->is_section_ref_increased(Data))
       {
         stat = sc->insert_writer(Data);
@@ -76,7 +76,7 @@ FLT_PREOP_CALLBACK_STATUS operations::pre_release_for_section_sync(
   }
   else
   {
-    em(SECTION_SYNC_DISPATCH, "FltGetStreamContext failed with status %!STATUS!", stat);
+    error_message(SECTION_SYNC_DISPATCH, "FltGetStreamContext failed with status %!STATUS!", stat);
   }
 
   return FLT_PREOP_SUCCESS_NO_CALLBACK;

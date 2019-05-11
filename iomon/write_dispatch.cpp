@@ -17,12 +17,12 @@ FLT_PREOP_CALLBACK_STATUS operations::pre_write(
         NTSTATUS stat = FltGetStreamContext(Data->Iopb->TargetInstance, Data->Iopb->TargetFileObject, sc);
         if (NT_SUCCESS(stat))
         {
-          im(WRITE_DISPATCH, "FltGetStreamContext success");
+          info_message(WRITE_DISPATCH, "FltGetStreamContext success");
           sc->increase_total_written_len(Data->Iopb->Parameters.Write.Length);
         }
         else
         {
-          em(WRITE_DISPATCH, "FltGetStreamContext failed with status %!STATUS!", stat);
+          error_message(WRITE_DISPATCH, "FltGetStreamContext failed with status %!STATUS!", stat);
         }
       }
     }

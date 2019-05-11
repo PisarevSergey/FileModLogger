@@ -14,17 +14,17 @@ extern "C" NTSTATUS DriverEntry(PDRIVER_OBJECT driver_object, PUNICODE_STRING)
     {
       break;
     }
-    im(MAIN, "create_driver success");
+    info_message(MAIN, "create_driver success");
     EventWriteFunctionCall(0, "create_driver", stat);
 
     stat = d->start_filtering();
     EventWriteFunctionCall(0, "start_filtering", stat);
     if (!NT_SUCCESS(stat))
     {
-      em(MAIN, "start_filtering failed with status %!STATUS!", stat);
+      error_message(MAIN, "start_filtering failed with status %!STATUS!", stat);
       break;
     }
-    im(MAIN, "start_filtering success");
+    info_message(MAIN, "start_filtering success");
     EventWriteStartEvent(0, stat);
 
   } while (false);
@@ -32,7 +32,7 @@ extern "C" NTSTATUS DriverEntry(PDRIVER_OBJECT driver_object, PUNICODE_STRING)
 
   if (!NT_SUCCESS(stat) && d)
   {
-    em(MAIN, "DriverEntry failed with status %!STATUS!", stat);
+    error_message(MAIN, "DriverEntry failed with status %!STATUS!", stat);
     delete d;
   }
 

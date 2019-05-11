@@ -24,13 +24,13 @@ namespace
       stat = FltGetStreamHandleContext(data->Iopb->TargetInstance, data->Iopb->TargetFileObject, shc);
       if (NT_SUCCESS(stat))
       {
-        im(WRITER_INFO, "FltGetStreamHandleContext success");
+        info_message(WRITER_INFO, "FltGetStreamHandleContext success");
 
         const USHORT name_len(sizeof(file_name[0]) + shc->get_file_name()->MaximumLength);
         file_name = static_cast<UNICODE_STRING*>(ExAllocatePoolWithTag(PagedPool, name_len, 'nlif'));
         if (file_name)
         {
-          im(WRITER_INFO, "file name buffer allocated successfully");
+          info_message(WRITER_INFO, "file name buffer allocated successfully");
 
           file_name->Buffer = reinterpret_cast<wchar_t*>(file_name + 1);
           file_name->Length = shc->get_file_name()->Length;
@@ -41,12 +41,12 @@ namespace
         else
         {
           stat = STATUS_INSUFFICIENT_RESOURCES;
-          em(WRITER_INFO, "failed to allocate file name buffer");
+          error_message(WRITER_INFO, "failed to allocate file name buffer");
         }
       }
       else
       {
-        em(WRITER_INFO, "FltGetStreamHandleContext failed with status %!STATUS!", stat);
+        error_message(WRITER_INFO, "FltGetStreamHandleContext failed with status %!STATUS!", stat);
       }
     }
 
