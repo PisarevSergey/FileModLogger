@@ -100,6 +100,7 @@
     <ClCompile>
       <WppEnabled>true</WppEnabled>
       <WppScanConfigurationData>tracing.h</WppScanConfigurationData>
+      <PreprocessorDefinitions>_X86_=1;i386=1;STD_CALL;%(PreprocessorDefinitions);POOL_NX_OPTIN=1;</PreprocessorDefinitions>
     </ClCompile>
     <MessageCompile>
       <GenerateKernelModeLoggingMacros>true</GenerateKernelModeLoggingMacros>
@@ -119,6 +120,7 @@
     <ClCompile>
       <WppEnabled>true</WppEnabled>
       <WppScanConfigurationData>tracing.h</WppScanConfigurationData>
+      <PreprocessorDefinitions>_X86_=1;i386=1;STD_CALL;%(PreprocessorDefinitions);POOL_NX_OPTIN=1;</PreprocessorDefinitions>
     </ClCompile>
     <MessageCompile>
       <GenerateKernelModeLoggingMacros>true</GenerateKernelModeLoggingMacros>
@@ -138,6 +140,7 @@
     <ClCompile>
       <WppEnabled>true</WppEnabled>
       <WppScanConfigurationData>tracing.h</WppScanConfigurationData>
+      <PreprocessorDefinitions>_WIN64;_AMD64_;AMD64;%(PreprocessorDefinitions);POOL_NX_OPTIN=1;</PreprocessorDefinitions>
     </ClCompile>
     <MessageCompile>
       <GenerateKernelModeLoggingMacros>true</GenerateKernelModeLoggingMacros>
@@ -157,6 +160,7 @@
     <ClCompile>
       <WppEnabled>true</WppEnabled>
       <WppScanConfigurationData>tracing.h</WppScanConfigurationData>
+      <PreprocessorDefinitions>_WIN64;_AMD64_;AMD64;%(PreprocessorDefinitions);POOL_NX_OPTIN=1;</PreprocessorDefinitions>
     </ClCompile>
     <MessageCompile>
       <GenerateKernelModeLoggingMacros>true</GenerateKernelModeLoggingMacros>

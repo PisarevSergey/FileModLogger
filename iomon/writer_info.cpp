@@ -89,7 +89,7 @@ namespace
 
     void* __cdecl operator new(size_t sz)
     {
-      return ExAllocatePoolWithTag(NonPagedPoolNx, sz, 'fniw');
+      return ExAllocatePoolWithTag(NonPagedPool, sz, 'fniw');
     }
   };
 }

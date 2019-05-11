@@ -210,7 +210,7 @@ contexts::stream_context* contexts::allocate_stream_context(NTSTATUS& stat)
 {
   PFLT_CONTEXT ctx(0);
 
-  stat = FltAllocateContext(get_driver()->get_filter(), FLT_STREAM_CONTEXT, contexts::get_stream_context_size(), NonPagedPoolNx, &ctx);
+  stat = FltAllocateContext(get_driver()->get_filter(), FLT_STREAM_CONTEXT, contexts::get_stream_context_size(), NonPagedPool, &ctx);
   if (NT_SUCCESS(stat))
   {
     info_message(STREAM_CONTEXT, "FltAllocateContext success");
