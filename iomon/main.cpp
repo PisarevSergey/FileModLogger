@@ -1,44 +1,39 @@
 #include "common.h"
 #include "main.tmh"
 
-extern "C" NTSTATUS DriverEntry(PDRIVER_OBJECT driver, PUNICODE_STRING)
+extern "C" NTSTATUS DriverEntry(PDRIVER_OBJECT driver_object, PUNICODE_STRING)
 {
-  WPP_INIT_TRACING(0, 0);
-
-  EventRegisterIomon();
-
   NTSTATUS stat(STATUS_UNSUCCESSFUL);
+
+  driver* d(0);
 
   do
   {
-    auto d = create_driver(stat, driver);
-    EventWriteFunctionCall(0, "create_driver", stat);
+    d = create_driver(stat, driver_object);
     if (!NT_SUCCESS(stat))
     {
-      em(MAIN, "create_driver failed with status %!STATUS!", stat);
       break;
     }
     im(MAIN, "create_driver success");
+    EventWriteFunctionCall(0, "create_driver", stat);
 
     stat = d->start_filtering();
     EventWriteFunctionCall(0, "start_filtering", stat);
     if (!NT_SUCCESS(stat))
     {
-      delete d;
       em(MAIN, "start_filtering failed with status %!STATUS!", stat);
       break;
     }
     im(MAIN, "start_filtering success");
+    EventWriteStartEvent(0, stat);
 
   } while (false);
 
-  EventWriteStartEvent(0, stat);
 
-  if (!NT_SUCCESS(stat))
+  if (!NT_SUCCESS(stat) && d)
   {
     em(MAIN, "DriverEntry failed with status %!STATUS!", stat);
-    EventUnregisterIomon();
-    WPP_CLEANUP(0);
+    delete d;
   }
 
   return stat;

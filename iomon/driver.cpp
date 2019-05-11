@@ -5,13 +5,10 @@ namespace
 {
   NTSTATUS unload(FLT_FILTER_UNLOAD_FLAGS)
   {
-    delete get_driver();
-
     EventWriteUnloadEvent(0);
     im(DRIVER, "unloading");
 
-    EventUnregisterIomon();
-    WPP_CLEANUP(0);
+    delete get_driver();
 
     return STATUS_SUCCESS;
   }
@@ -44,7 +41,23 @@ namespace
     return stat;
   }
 
-  class driver_mem_alloc : public driver
+  class tracing_driver : public driver
+  {
+  public:
+    tracing_driver()
+    {
+      WPP_INIT_TRACING(0, 0);
+      EventRegisterIomon();
+    }
+
+    ~tracing_driver()
+    {
+      EventUnregisterIomon();
+      WPP_CLEANUP(0);
+    }
+  };
+
+  class driver_mem_alloc : public tracing_driver
   {
   public:
     void* __cdecl operator new(size_t, void* p) { return p; }
@@ -136,7 +149,7 @@ driver* create_driver(NTSTATUS& stat, PDRIVER_OBJECT driver)
   }
   else
   {
-    em(DRIVER, "driver initialization failed with status %!STATUS!", stat);
+    em(DRIVER, "driver initialization failed with status %!STATUS!", stat); //can use here, tracing init can't fail
     delete d;
     d = 0;
   }
