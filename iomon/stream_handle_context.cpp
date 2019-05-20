@@ -8,7 +8,8 @@ namespace
   public:
     sh_context_with_name(NTSTATUS& stat, PFLT_CALLBACK_DATA data) : fni(0)
     {
-      stat = FltGetFileNameInformation(data, FLT_FILE_NAME_OPENED | FLT_FILE_NAME_QUERY_DEFAULT, &fni);
+      stat = FltGetFileNameInformation(data, FLT_FILE_NAME_NORMALIZED
+        | FLT_FILE_NAME_QUERY_DEFAULT, &fni);
       if (NT_SUCCESS(stat))
       {
         info_message(STREAM_HANDLE_CONTEXT, "FltGetFileNameInformation success, file name is %wZ", &fni->Name);
