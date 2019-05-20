@@ -114,14 +114,13 @@ operations::post_create(_Inout_  PFLT_CALLBACK_DATA       Data,
             error_message(CREATE_DISPATCH, "set_stream_context failed with status %!STATUS!", stat);
           }
         }
+      }
 
-        if (!NT_SUCCESS(stat) && (0 == (Data->Iopb->TargetFileObject->Flags & FO_HANDLE_CREATED)))
-        {
-          error_message(CREATE_DISPATCH, "post create dispatching failed with status %!STATUS!, canceling open", stat);
-          FltCancelFileOpen(Data->Iopb->TargetInstance, Data->Iopb->TargetFileObject);
-          Data->IoStatus.Status = stat;
-        }
-
+      if (!NT_SUCCESS(stat) && (0 == (Data->Iopb->TargetFileObject->Flags & FO_HANDLE_CREATED)))
+      {
+        error_message(CREATE_DISPATCH, "post create dispatching failed with status %!STATUS!, canceling open", stat);
+        FltCancelFileOpen(Data->Iopb->TargetInstance, Data->Iopb->TargetFileObject);
+        Data->IoStatus.Status = stat;
       }
 
     }
